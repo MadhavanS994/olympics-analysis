@@ -54,14 +54,9 @@ def country_year_list(df):
 
 def data_over_time(df, col):
     temp_df = df.drop_duplicates(['Year', col])
-    nations_over_time = temp_df['Year'].value_counts().reset_index().sort_values('index')
-
-    nations_over_time.rename(
-        columns={'index': 'Edition', 'Year': col},
-        inplace=True
-    )
-
-    return nations_over_time
+    result = temp_df.groupby('Year').count()[col].reset_index()
+    result.rename(columns={col: "Count"}, inplace=True)
+    return result
 
 
 def most_successful(df, sport):
